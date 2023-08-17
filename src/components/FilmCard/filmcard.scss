@@ -1,0 +1,15 @@
+.description::first-letter {
+    text-transform: uppercase;
+}
+
+.card-image {
+    object-fit: cover;
+    width: 98% !important;
+    margin: 5px auto;
+    border-radius: 5px;
+}
+
+.card-title {
+    text-transform: uppercase;
+    text-align: center;
+}
