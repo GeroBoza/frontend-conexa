@@ -1,11 +1,11 @@
 import React from "react";
-import Layout from "../Layout/Layout";
+import AppLayout from "../AppLayout/AppLayout";
 import { Grid, Typography } from "@mui/material";
 import "./home.scss";
 
 const Home = () => {
     return (
-        <Layout>
+        <AppLayout>
             <Grid container className="gif">
                 <Grid item xs={12} display={"flex"} justifyContent={"center"}>
                     <Typography
@@ -17,7 +17,7 @@ const Home = () => {
                     </Typography>
                 </Grid>
             </Grid>
-        </Layout>
+        </AppLayout>
     );
 };
 

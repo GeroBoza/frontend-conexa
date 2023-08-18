@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -11,7 +11,7 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 
-import "./navbar.scss";
+import "./styles.scss";
 
 const pages = [
     { label: "Films", url: "/films" },
@@ -22,6 +22,8 @@ const pages = [
 
 function NavBar() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const url = location.pathname;
 
     const [anchorElNav, setAnchorElNav] = useState(null);
 
@@ -130,6 +132,7 @@ function NavBar() {
                             <Button
                                 key={page.label}
                                 onClick={() => handleClickMenuItem(page.url)}
+                                className={page.url === url ? "selected" : ""}
                                 sx={{ my: 2, color: "white", display: "block" }}
                             >
                                 {page.label}

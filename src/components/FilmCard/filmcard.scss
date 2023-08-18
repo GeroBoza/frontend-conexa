@@ -1,5 +1,5 @@
-.description::first-letter {
-    text-transform: uppercase;
+.css-qpjsw6-MuiPaper-root-MuiCard-root{
+    background-color: grey !important;
 }
 
 .card-image {
@@ -12,4 +12,12 @@
 .card-title {
     text-transform: uppercase;
     text-align: center;
+    color: white;
+}
+
+.description {
+    color: white !important;
+    ::first-letter {
+        text-transform: uppercase;
+    }
 }

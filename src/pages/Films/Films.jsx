@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Layout from "../Layout/Layout";
+import AppLayout from "../AppLayout/AppLayout";
 import { ApiService } from "../../services/ApiService";
 import FilmCard from "../../components/FilmCard/FilmCard";
 import { Grid } from "@mui/material";
@@ -7,20 +7,21 @@ import SkeletonCard from "../../components/SkeletonCard/SkeletonCard";
 
 const Films = () => {
     const [films, setFilms] = useState([]);
+    const [openLoader, setOpenLoader] = useState(false);
     const skeletons = [1, 2, 3, 4, 5, 6];
     useEffect(() => {
         async function fetchData() {
-            const data = await ApiService.getAllFilms(1);
+            setOpenLoader(true);
+            const data = await ApiService.getAllFilms();
             setFilms(data.data.results);
+            setOpenLoader(false);
         }
 
         fetchData();
     }, []);
 
-    console.log(films);
-
     return (
-        <Layout>
+        <AppLayout openLoader={openLoader}>
             <Grid
                 container
                 spacing={3}
@@ -54,7 +55,7 @@ const Films = () => {
                           </Grid>
                       ))}
             </Grid>
-        </Layout>
+        </AppLayout>
     );
 };
 

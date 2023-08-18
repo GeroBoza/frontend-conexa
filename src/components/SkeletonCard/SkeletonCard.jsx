@@ -4,13 +4,13 @@ import { Box } from "@mui/system";
 
 import "./skeletonCard.scss";
 
-const SkeletonCard = () => {
+const SkeletonCard = ({ width = 400, height = 400 }) => {
     return (
         <Box sx={{ marginBottom: "30px" }}>
             <Skeleton
                 variant="rectangular"
-                width={400}
-                height={400}
+                width={width}
+                height={height}
                 sx={{ borderRadius: "1%" }}
             />
             <Skeleton />
