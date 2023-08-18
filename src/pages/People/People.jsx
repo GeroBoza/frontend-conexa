@@ -12,11 +12,13 @@ const People = () => {
     const [previousUrl, setPreviousUrl] = useState(null);
     const [nextUrl, setNextUrl] = useState(null);
     const [openLoader, setOpenLoader] = useState(false);
+    const [favouriteList, setFavouriteList] = useState(
+        JSON.parse(localStorage.getItem("peopleFavs")) || []
+    );
 
     const getData = async (page = 1) => {
         setOpenLoader(true);
         const res = await ApiService.getAllPeople(page);
-        console.log(res.data);
         setPeople(res.data.results);
         setNextUrl(res.data.next);
         setPreviousUrl(res.data.previous);
@@ -31,6 +33,44 @@ const People = () => {
         console.log(evt);
     };
 
+    const onChangeSearch = async (name) => {
+        setOpenLoader(true);
+        const res = await ApiService.getPeopleFromName(name);
+
+        setNextUrl(res.data.next);
+        setPreviousUrl(res.data.previous);
+        setPeople(res.data.results);
+        setOpenLoader(false);
+    };
+
+    const handleAddFavourite = (item) => {
+        const exists = localStorage.getItem("peopleFavs");
+        let favs = [];
+        if (exists) {
+            favs = JSON.parse(exists);
+            const isFavouriteIndex = favs.findIndex(
+                (it) => it.url === item.url
+            );
+            if (isFavouriteIndex > -1) {
+                favs.splice(isFavouriteIndex, 1);
+                setFavouriteList(favs);
+                localStorage.setItem("peopleFavs", JSON.stringify(favs));
+                return;
+            }
+        }
+        favs.push(item);
+        setFavouriteList(favs);
+        localStorage.setItem("peopleFavs", JSON.stringify(favs));
+    };
+
+    const handleFavouritesButton = (condition) => {
+        if (condition === "favs") {
+            setPeople(favouriteList);
+        } else {
+            getData();
+        }
+    };
+
     return (
         <ListLayout
             title={"People"}
@@ -38,11 +78,19 @@ const People = () => {
             previousUrl={previousUrl}
             nextUrl={nextUrl}
             getData={getData}
+            onChangeSearch={onChangeSearch}
+            handleFavouritesButton={handleFavouritesButton}
         >
             {people &&
                 people.map((p) => (
                     <Grid item xs={12} md={6} lg={3} key={p.name}>
-                        <DataCard title={p.name} handleClick={handleClickCard}>
+                        <DataCard
+                            item={p}
+                            title={p.name}
+                            handleClick={handleClickCard}
+                            handleAddFavourite={handleAddFavourite}
+                            favouriteList={favouriteList}
+                        >
                             <Typography color="text.secondary">
                                 Gender: {p.gender}
                             </Typography>

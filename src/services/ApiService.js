@@ -19,4 +19,19 @@ export const ApiService = {
         const result = await axios.get(`${api}/planets/all/?page=${page}`);
         return result;
     },
+
+    getPeopleFromName: async (name) => {
+        const result = await axios.get(`${api}/people/search/?search=${name}`);
+        return result;
+    },
+    getStarshipsFromName: async (name) => {
+        const result = await axios.get(
+            `${api}/starships/search/?search=${name}`
+        );
+        return result;
+    },
+    getPlanetsFromName: async (name) => {
+        const result = await axios.get(`${api}/planets/search/?search=${name}`);
+        return result;
+    },
 };

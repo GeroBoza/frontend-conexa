@@ -15,7 +15,7 @@ const Planets = () => {
 
     const getData = async (page = 1) => {
         setOpenLoader(true);
-        const res = await ApiService.getAllStarships(page);
+        const res = await ApiService.getAllPlanets(page);
         console.log(res.data);
         setPlanets(res.data.results);
         setNextUrl(res.data.next);
@@ -31,6 +31,16 @@ const Planets = () => {
         console.log(evt);
     };
 
+    const onChangeSearch = async (name) => {
+        setOpenLoader(true);
+        const res = await ApiService.getPlanetsFromName(name);
+
+        setNextUrl(res.data.next);
+        setPreviousUrl(res.data.previous);
+        setPlanets(res.data.results);
+        setOpenLoader(false);
+    };
+
     return (
         <ListLayout
             title={"Planets"}
@@ -38,6 +48,7 @@ const Planets = () => {
             previousUrl={previousUrl}
             nextUrl={nextUrl}
             getData={getData}
+            onChangeSearch={onChangeSearch}
         >
             {planets &&
                 planets.map((p) => (

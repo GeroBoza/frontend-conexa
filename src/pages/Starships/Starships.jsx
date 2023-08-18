@@ -6,12 +6,16 @@ import { Grid, Typography } from "@mui/material";
 
 import { ApiService } from "../../services/ApiService";
 import ListLayout from "../ListLayout/ListLayout";
+import SearchBar from "../../components/SearchBar/SearchBar";
 
 const Starships = () => {
     const [starships, setStarships] = useState([]);
     const [previousUrl, setPreviousUrl] = useState(null);
     const [nextUrl, setNextUrl] = useState(null);
     const [openLoader, setOpenLoader] = useState(false);
+    const [favouriteList, setFavouriteList] = useState(
+        JSON.parse(localStorage.getItem("starshipsFavs")) || []
+    );
 
     const getData = async (page = 1) => {
         setOpenLoader(true);
@@ -31,6 +35,44 @@ const Starships = () => {
         console.log(evt);
     };
 
+    const onChangeSearch = async (name) => {
+        setOpenLoader(true);
+        const res = await ApiService.getStarshipsFromName(name);
+
+        setNextUrl(res.data.next);
+        setPreviousUrl(res.data.previous);
+        setStarships(res.data.results);
+        setOpenLoader(false);
+    };
+
+    const handleAddFavourite = (item) => {
+        const exists = localStorage.getItem("starshipFavs");
+        let favs = [];
+        if (exists) {
+            favs = JSON.parse(exists);
+            const isFavouriteIndex = favs.findIndex(
+                (it) => it.url === item.url
+            );
+            if (isFavouriteIndex > -1) {
+                favs.splice(isFavouriteIndex, 1);
+                setFavouriteList(favs);
+                localStorage.setItem("starshipFavs", JSON.stringify(favs));
+                return;
+            }
+        }
+        favs.push(item);
+        setFavouriteList(favs);
+        localStorage.setItem("starshipFavs", JSON.stringify(favs));
+    };
+
+    const handleFavouritesButton = (condition) => {
+        if (condition === "favs") {
+            setStarships(favouriteList);
+        } else {
+            getData();
+        }
+    };
+
     return (
         <ListLayout
             title={"Starships"}
@@ -38,21 +80,30 @@ const Starships = () => {
             previousUrl={previousUrl}
             nextUrl={nextUrl}
             getData={getData}
+            onChangeSearch={onChangeSearch}
+            handleFavouritesButton={handleFavouritesButton}
         >
             {starships &&
-                starships.map((p) => (
-                    <Grid item xs={12} md={6} lg={3} key={p.name}>
-                        <DataCard title={p.name} handleClick={handleClickCard}>
-                            <Typography
-                                variant="h5"
-                                component="div"
-                            ></Typography>
-                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                Gender: {p.gender} <br />
-                                Height: {p.height} <br />
+                starships.map((starship) => (
+                    <Grid item xs={12} md={6} lg={3} key={starship.name}>
+                        <DataCard
+                            item={starship}
+                            title={starship.name}
+                            handleClick={handleClickCard}
+                            handleAddFavourite={handleAddFavourite}
+                            favouriteList={favouriteList}
+                        >
+                            <Typography color="text.secondary">
+                                Passengers: {starship.passengers}
                             </Typography>
-                            <Typography variant="body2">
-                                Films: {p.films.length}
+                            <Typography color="text.secondary">
+                                Cargo capacity: {starship.cargo_capacity}
+                            </Typography>
+                            <Typography color="text.secondary">
+                                Max speed: {starship.max_atmosphering_speed}
+                            </Typography>
+                            <Typography color="text.secondary">
+                                Films: {starship.films.length}
                             </Typography>
                         </DataCard>
                     </Grid>
