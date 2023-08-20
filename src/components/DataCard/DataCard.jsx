@@ -6,6 +6,8 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Avatar, Grid, Rating } from "@mui/material";
 
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+
 import "./styles.scss";
 
 function DataCard({
@@ -76,6 +78,12 @@ function DataCard({
                         max={1}
                         onChange={handleAddFavourite}
                         value={checkIfIsFavourite()}
+                        emptyIcon={
+                            <StarBorderIcon
+                                fontSize="inherit"
+                                sx={{ color: "grey" }}
+                            />
+                        }
                     />
                 </Typography>
                 <Grid container>

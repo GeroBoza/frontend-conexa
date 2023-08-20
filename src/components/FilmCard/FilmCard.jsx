@@ -6,9 +6,9 @@ import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import "./styles.scss";
 
-function FilmCard({ film }) {
+function FilmCard({ film, handleSelectFilm }) {
     return (
-        <Card sx={{ maxWidth: 400 }}>
+        <Card sx={{ maxWidth: 400 }} onClick={() => handleSelectFilm(film)}>
             <CardActionArea>
                 <CardMedia
                     component="img"
