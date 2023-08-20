@@ -1,7 +1,7 @@
 import React from "react";
 import AppLayout from "../AppLayout/AppLayout";
 import { Grid, Typography } from "@mui/material";
-import "./home.scss";
+import "./styles.scss";
 
 const Home = () => {
     return (

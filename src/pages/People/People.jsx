@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 
-import DataCard from "../../components/DataCard/DataCard";
-
-import { Grid, Typography } from "@mui/material";
-
+import { Avatar, DialogContentText, Grid, Typography } from "@mui/material";
 import { ApiService } from "../../services/ApiService";
+
 import ListLayout from "../ListLayout/ListLayout";
+import DataCard from "../../components/DataCard/DataCard";
+import DataModal from "../../components/DataModal/DataModal";
 
 const People = () => {
     const [people, setPeople] = useState([]);
     const [previousUrl, setPreviousUrl] = useState(null);
     const [nextUrl, setNextUrl] = useState(null);
+    const [openModal, setOpenModal] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+
     const [openLoader, setOpenLoader] = useState(false);
     const [favouriteList, setFavouriteList] = useState(
         JSON.parse(localStorage.getItem("peopleFavs")) || []
@@ -20,6 +23,7 @@ const People = () => {
         setOpenLoader(true);
         const res = await ApiService.getAllPeople(page);
         setPeople(res.data.results);
+        console.log(res.data.results);
         setNextUrl(res.data.next);
         setPreviousUrl(res.data.previous);
         setOpenLoader(false);
@@ -30,37 +34,23 @@ const People = () => {
     }, []);
 
     const handleClickCard = (evt) => {
+        setSelectedItem(evt);
+        setOpenModal(true);
         console.log(evt);
+    };
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
     };
 
     const onChangeSearch = async (name) => {
         setOpenLoader(true);
-        const res = await ApiService.getPeopleFromName(name);
+        const res = await ApiService.getPeopleByName(name);
 
         setNextUrl(res.data.next);
         setPreviousUrl(res.data.previous);
         setPeople(res.data.results);
         setOpenLoader(false);
-    };
-
-    const handleAddFavourite = (item) => {
-        const exists = localStorage.getItem("peopleFavs");
-        let favs = [];
-        if (exists) {
-            favs = JSON.parse(exists);
-            const isFavouriteIndex = favs.findIndex(
-                (it) => it.url === item.url
-            );
-            if (isFavouriteIndex > -1) {
-                favs.splice(isFavouriteIndex, 1);
-                setFavouriteList(favs);
-                localStorage.setItem("peopleFavs", JSON.stringify(favs));
-                return;
-            }
-        }
-        favs.push(item);
-        setFavouriteList(favs);
-        localStorage.setItem("peopleFavs", JSON.stringify(favs));
     };
 
     const handleFavouritesButton = (condition) => {
@@ -86,10 +76,11 @@ const People = () => {
                     <Grid item xs={12} md={6} lg={3} key={p.name}>
                         <DataCard
                             item={p}
-                            title={p.name}
                             handleClick={handleClickCard}
-                            handleAddFavourite={handleAddFavourite}
+                            favListName={"peopleFavs"}
+                            setFavouriteList={setFavouriteList}
                             favouriteList={favouriteList}
+                            hasAvatar={true}
                         >
                             <Typography color="text.secondary">
                                 Gender: {p.gender}
@@ -109,6 +100,23 @@ const People = () => {
                         </DataCard>
                     </Grid>
                 ))}
+            {selectedItem && (
+                <DataModal
+                    item={selectedItem}
+                    open={openModal}
+                    handleClose={handleCloseModal}
+                >
+                    <DialogContentText>
+                        Birth year: <strong>{selectedItem.birth_year}</strong>
+                    </DialogContentText>
+                    <DialogContentText>
+                        Eye color: <strong>{selectedItem.eye_color}</strong>
+                    </DialogContentText>
+                    <DialogContentText>
+                        Skin color: <strong>{selectedItem.skin_color}</strong>
+                    </DialogContentText>
+                </DataModal>
+            )}
         </ListLayout>
     );
 };

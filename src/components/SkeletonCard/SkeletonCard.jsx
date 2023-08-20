@@ -2,7 +2,7 @@ import React from "react";
 import { Skeleton } from "@mui/material";
 import { Box } from "@mui/system";
 
-import "./skeletonCard.scss";
+import "./styles.scss";
 
 const SkeletonCard = ({ width = 400, height = 400 }) => {
     return (

@@ -1,12 +1,8 @@
 import React, { useState } from "react";
+
+import { Button, Grid, Typography } from "@mui/material";
+
 import AppLayout from "../AppLayout/AppLayout";
-import {
-    Button,
-    FormControlLabel,
-    Grid,
-    Switch,
-    Typography,
-} from "@mui/material";
 import PaginationButtons from "../../components/PaginationButtons/PaginationButtons";
 import SkeletonCard from "../../components/SkeletonCard/SkeletonCard";
 import SearchBar from "../../components/SearchBar/SearchBar";
@@ -32,6 +28,11 @@ const ListLayout = ({
         getData(newPage);
     };
 
+    const handleChangeSearch = (name) => {
+        setShowFavouritesButton(true);
+        onChangeSearch(name);
+    };
+
     return (
         <AppLayout openLoader={openLoader}>
             <Grid
@@ -52,7 +53,9 @@ const ListLayout = ({
                         {title}
                     </Typography>
                     <Grid item xs={12} md={4} sx={{ margin: "20px auto" }}>
-                        <SearchBar onChangeSearch={onChangeSearch}></SearchBar>
+                        <SearchBar
+                            onChangeSearch={handleChangeSearch}
+                        ></SearchBar>
                     </Grid>
                     <Grid item xs={12} className={"switch-container"} sx={{}}>
                         {showFavouritesButton === true ? (
@@ -84,7 +87,6 @@ const ListLayout = ({
                         )}
                     </Grid>
                 </Grid>
-                {/* {children} */}
                 {!openLoader
                     ? children
                     : skeletons.map((skeleton) => (

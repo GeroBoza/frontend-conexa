@@ -1,19 +1,21 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Rating } from "@mui/material";
+import { Avatar, Grid, Rating } from "@mui/material";
+
+import "./styles.scss";
 
 function DataCard({
-    title,
     item,
     favouriteList,
-    handleAddFavourite,
+    favListName,
+    setFavouriteList,
     handleClick,
     children,
+    hasAvatar = false,
 }) {
     const checkIfIsFavourite = () => {
         const isFav = favouriteList.findIndex(
@@ -25,7 +27,37 @@ function DataCard({
         return 0;
     };
 
-    checkIfIsFavourite();
+    const handleAddFavourite = () => {
+        const exists = localStorage.getItem(favListName);
+        let favs = [];
+        if (exists) {
+            favs = JSON.parse(exists);
+            const isFavouriteIndex = favs.findIndex(
+                (it) => it.url === item.url
+            );
+            if (isFavouriteIndex > -1) {
+                favs.splice(isFavouriteIndex, 1);
+                setFavouriteList(favs);
+                localStorage.setItem(favListName, JSON.stringify(favs));
+                return;
+            }
+        }
+        favs.push(item);
+        setFavouriteList(favs);
+        localStorage.setItem(favListName, JSON.stringify(favs));
+    };
+
+    function getPeopleId(url) {
+        const regex = /\/(\d+)\/$/;
+        const matches = url.match(regex);
+
+        if (matches && matches.length > 1) {
+            return parseInt(matches[1]);
+        }
+
+        return null;
+    }
+
     return (
         <Card sx={{ minWidth: 275 }}>
             <CardContent>
@@ -39,17 +71,35 @@ function DataCard({
                     color="text.primary"
                     gutterBottom
                 >
-                    {title}
+                    {item.name}
                     <Rating
                         max={1}
-                        onChange={() => handleAddFavourite(item)}
+                        onChange={handleAddFavourite}
                         value={checkIfIsFavourite()}
                     />
                 </Typography>
-                {children}
+                <Grid container>
+                    <Grid item xs={hasAvatar ? 6 : 12}>
+                        {children}
+                    </Grid>
+                    {hasAvatar && (
+                        <Grid item xs={6}>
+                            <Avatar
+                                alt={item.name}
+                                src={`https://geroboza-bucket.s3.sa-east-1.amazonaws.com/sw/${getPeopleId(
+                                    item.url
+                                )}.png`}
+                                sx={{
+                                    width: 150,
+                                    height: 150,
+                                }}
+                            />
+                        </Grid>
+                    )}
+                </Grid>
             </CardContent>
             <CardActions>
-                <Button size="small" onClick={handleClick}>
+                <Button size="small" onClick={() => handleClick(item)}>
                     Learn More
                 </Button>
             </CardActions>

@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 
-import DataCard from "../../components/DataCard/DataCard";
-
 import { Grid, Typography } from "@mui/material";
-
 import { ApiService } from "../../services/ApiService";
+
 import ListLayout from "../ListLayout/ListLayout";
-import SearchBar from "../../components/SearchBar/SearchBar";
+import DataCard from "../../components/DataCard/DataCard";
+import DataModal from "../../components/DataModal/DataModal";
 
 const Starships = () => {
     const [starships, setStarships] = useState([]);
     const [previousUrl, setPreviousUrl] = useState(null);
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [openModal, setOpenModal] = useState(false);
     const [nextUrl, setNextUrl] = useState(null);
     const [openLoader, setOpenLoader] = useState(false);
     const [favouriteList, setFavouriteList] = useState(
@@ -20,7 +21,6 @@ const Starships = () => {
     const getData = async (page = 1) => {
         setOpenLoader(true);
         const res = await ApiService.getAllStarships(page);
-        console.log(res.data);
         setStarships(res.data.results);
         setNextUrl(res.data.next);
         setPreviousUrl(res.data.previous);
@@ -31,38 +31,23 @@ const Starships = () => {
         getData();
     }, []);
 
-    const handleClickCard = (evt) => {
-        console.log(evt);
+    const handleClickCard = (item) => {
+        setSelectedItem(item);
+        setOpenModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
     };
 
     const onChangeSearch = async (name) => {
         setOpenLoader(true);
-        const res = await ApiService.getStarshipsFromName(name);
+        const res = await ApiService.getStarshipsByName(name);
 
         setNextUrl(res.data.next);
         setPreviousUrl(res.data.previous);
         setStarships(res.data.results);
         setOpenLoader(false);
-    };
-
-    const handleAddFavourite = (item) => {
-        const exists = localStorage.getItem("starshipFavs");
-        let favs = [];
-        if (exists) {
-            favs = JSON.parse(exists);
-            const isFavouriteIndex = favs.findIndex(
-                (it) => it.url === item.url
-            );
-            if (isFavouriteIndex > -1) {
-                favs.splice(isFavouriteIndex, 1);
-                setFavouriteList(favs);
-                localStorage.setItem("starshipFavs", JSON.stringify(favs));
-                return;
-            }
-        }
-        favs.push(item);
-        setFavouriteList(favs);
-        localStorage.setItem("starshipFavs", JSON.stringify(favs));
     };
 
     const handleFavouritesButton = (condition) => {
@@ -88,9 +73,9 @@ const Starships = () => {
                     <Grid item xs={12} md={6} lg={3} key={starship.name}>
                         <DataCard
                             item={starship}
-                            title={starship.name}
                             handleClick={handleClickCard}
-                            handleAddFavourite={handleAddFavourite}
+                            favListName={"starshipsFavs"}
+                            setFavouriteList={setFavouriteList}
                             favouriteList={favouriteList}
                         >
                             <Typography color="text.secondary">
@@ -108,6 +93,14 @@ const Starships = () => {
                         </DataCard>
                     </Grid>
                 ))}
+
+            {selectedItem && (
+                <DataModal
+                    item={selectedItem}
+                    open={openModal}
+                    handleClose={handleCloseModal}
+                ></DataModal>
+            )}
         </ListLayout>
     );
 };

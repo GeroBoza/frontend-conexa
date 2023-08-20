@@ -1,7 +1,8 @@
 import React from "react";
 import NavBar from "../../components/NavBar/NavBar";
-import "./styles.scss";
+
 import { Backdrop, CircularProgress } from "@mui/material";
+import "./styles.scss";
 
 const AppLayout = ({ openLoader = false, children }) => {
     return (

@@ -20,18 +20,31 @@ export const ApiService = {
         return result;
     },
 
-    getPeopleFromName: async (name) => {
+    getPeopleByName: async (name) => {
         const result = await axios.get(`${api}/people/search/?search=${name}`);
         return result;
     },
-    getStarshipsFromName: async (name) => {
+    getStarshipsByName: async (name) => {
         const result = await axios.get(
             `${api}/starships/search/?search=${name}`
         );
         return result;
     },
-    getPlanetsFromName: async (name) => {
+    getPlanetsByName: async (name) => {
         const result = await axios.get(`${api}/planets/search/?search=${name}`);
+        return result;
+    },
+
+    getPeopleById: async (id) => {
+        const result = await axios.get(`${api}/people/${id}`);
+        return result;
+    },
+    getStarshipById: async (id) => {
+        const result = await axios.get(`${api}/starship/${id}`);
+        return result;
+    },
+    getPlanetById: async (id) => {
+        const result = await axios.get(`${api}/planet/${id}`);
         return result;
     },
 };

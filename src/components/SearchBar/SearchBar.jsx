@@ -24,7 +24,6 @@ function SearchBar({ onChangeSearch }) {
                 id="filled-search"
                 label="Search by name"
                 type="search"
-                // variant="filled"
                 onChange={(evt) => setSearch(evt.target.value)}
                 InputProps={{
                     endAdornment: (
