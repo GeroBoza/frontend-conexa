@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Grid, Typography } from "@mui/material";
+import { DialogContentText, Grid, Typography } from "@mui/material";
 import { ApiService } from "../../services/ApiService";
 
 import ListLayout from "../ListLayout/ListLayout";
@@ -112,7 +112,30 @@ const Planets = () => {
                     item={selectedItem}
                     open={openModal}
                     handleClose={handleCloseModal}
-                ></ListsModalContent>
+                >
+                    <DialogContentText>
+                        Population:{" "}
+                        <strong>
+                            {parseInt(selectedItem.population).toLocaleString(
+                                "it-IT"
+                            )}
+                        </strong>
+                    </DialogContentText>
+                    <DialogContentText>
+                        Climate: <strong>{selectedItem.climate}</strong>
+                    </DialogContentText>
+                    <DialogContentText>
+                        Terrain: <strong>{selectedItem.terrain}</strong>
+                    </DialogContentText>
+                    <DialogContentText>
+                        Surface water:{" "}
+                        <strong>{selectedItem.surface_water}%</strong>
+                    </DialogContentText>
+                    <DialogContentText>
+                        Rotation period:{" "}
+                        <strong>{selectedItem.rotation_period} hs</strong>
+                    </DialogContentText>
+                </ListsModalContent>
             )}
         </ListLayout>
     );

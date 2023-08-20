@@ -23,7 +23,6 @@ const People = () => {
         setOpenLoader(true);
         const res = await ApiService.getAllPeople(page);
         setPeople(res.data.results);
-        console.log(res.data.results);
         setNextUrl(res.data.next);
         setPreviousUrl(res.data.previous);
         setOpenLoader(false);
@@ -82,19 +81,19 @@ const People = () => {
                             hasAvatar={true}
                         >
                             <Typography color="text.secondary">
-                                Gender: {p.gender}
+                                Gender: <strong>{p.gender}</strong>
                             </Typography>
                             <Typography color="text.secondary">
-                                Height: {p.height}
+                                Height: <strong>{p.height} cm</strong>
                             </Typography>
                             <Typography color="text.secondary">
-                                Films: {p.films.length}
+                                Films: <strong>{p.films.length}</strong>
                             </Typography>
                             <Typography color="text.secondary">
-                                Starships: {p.starships.length}
+                                Starships: <strong>{p.starships.length}</strong>
                             </Typography>
                             <Typography color="text.secondary">
-                                Vehicles: {p.vehicles.length}
+                                Vehicles: <strong>{p.vehicles.length}</strong>
                             </Typography>
                         </DataCard>
                     </Grid>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Grid, Typography } from "@mui/material";
+import { DialogContentText, Grid, Typography } from "@mui/material";
 import { ApiService } from "../../services/ApiService";
 
 import ListLayout from "../ListLayout/ListLayout";
@@ -79,16 +79,29 @@ const Starships = () => {
                             favouriteList={favouriteList}
                         >
                             <Typography color="text.secondary">
-                                Passengers: {starship.passengers}
+                                Passengers:{" "}
+                                <strong>{starship.passengers}</strong>
                             </Typography>
                             <Typography color="text.secondary">
-                                Cargo capacity: {starship.cargo_capacity}
+                                Cargo capacity:{" "}
+                                <strong>
+                                    {parseInt(
+                                        starship.cargo_capacity
+                                    ).toLocaleString("it-IT")}{" "}
+                                    kg
+                                </strong>
                             </Typography>
                             <Typography color="text.secondary">
-                                Max speed: {starship.max_atmosphering_speed}
+                                Max speed:{" "}
+                                <strong>
+                                    {parseInt(
+                                        starship.max_atmosphering_speed
+                                    ).toLocaleString("it-IT")}{" "}
+                                    m/h
+                                </strong>
                             </Typography>
                             <Typography color="text.secondary">
-                                Films: {starship.films.length}
+                                Films: <strong>{starship.films.length}</strong>
                             </Typography>
                         </DataCard>
                     </Grid>
@@ -99,7 +112,32 @@ const Starships = () => {
                     item={selectedItem}
                     open={openModal}
                     handleClose={handleCloseModal}
-                ></ListsModalContent>
+                >
+                    <DialogContentText>
+                        Crew: <strong>{selectedItem.crew}</strong>
+                    </DialogContentText>
+                    <DialogContentText>
+                        Length: <strong>{selectedItem.length} mts</strong>
+                    </DialogContentText>
+                    <DialogContentText>
+                        Max speed:{" "}
+                        <strong>
+                            {parseInt(
+                                selectedItem.max_atmosphering_speed
+                            ).toLocaleString("it-IT")}{" "}
+                            m/h
+                        </strong>
+                    </DialogContentText>
+                    <Typography color="text.secondary">
+                        Cargo capacity:{" "}
+                        <strong>
+                            {parseInt(
+                                selectedItem.cargo_capacity
+                            ).toLocaleString("it-IT")}{" "}
+                            kg
+                        </strong>
+                    </Typography>
+                </ListsModalContent>
             )}
         </ListLayout>
     );

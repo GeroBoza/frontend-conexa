@@ -15,9 +15,9 @@ const ListLayout = ({
     previousUrl,
     nextUrl,
     getData,
-    children,
     onChangeSearch,
     handleFavouritesButton,
+    children,
 }) => {
     const [newPage, setNewPage] = useState(1);
     const [showFavouritesButton, setShowFavouritesButton] = useState(true);
@@ -31,6 +31,21 @@ const ListLayout = ({
     const handleChangeSearch = (name) => {
         setShowFavouritesButton(true);
         onChangeSearch(name);
+    };
+
+    const favButtons = (title, isFav = "") => {
+        return (
+            <Button
+                variant="contained"
+                color="warning"
+                onClick={() => {
+                    handleFavouritesButton(isFav);
+                    setShowFavouritesButton(!showFavouritesButton);
+                }}
+            >
+                {title}
+            </Button>
+        );
     };
 
     return (
@@ -58,33 +73,9 @@ const ListLayout = ({
                         ></SearchBar>
                     </Grid>
                     <Grid item xs={12} className={"switch-container"} sx={{}}>
-                        {showFavouritesButton === true ? (
-                            <Button
-                                variant="contained"
-                                color="warning"
-                                onClick={() => {
-                                    handleFavouritesButton("favs");
-                                    setShowFavouritesButton(
-                                        !showFavouritesButton
-                                    );
-                                }}
-                            >
-                                Ver favoritos
-                            </Button>
-                        ) : (
-                            <Button
-                                variant="contained"
-                                color="warning"
-                                onClick={() => {
-                                    handleFavouritesButton();
-                                    setShowFavouritesButton(
-                                        !showFavouritesButton
-                                    );
-                                }}
-                            >
-                                Ver todo
-                            </Button>
-                        )}
+                        {showFavouritesButton === true
+                            ? favButtons("Ver Favoritos", "favs")
+                            : favButtons("Ver todo")}
                     </Grid>
                 </Grid>
                 {!openLoader

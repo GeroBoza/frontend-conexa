@@ -32,7 +32,7 @@ function ListsModalContent({ item, open, handleClose, children }) {
                 <Grid container display={"flex"} justifyContent={"center"}>
                     <Grid item xs={12}>
                         {children}
-                        <DialogContentText>Movies:</DialogContentText>
+                        <DialogContentText>Films:</DialogContentText>
                     </Grid>
                     {item.films.map((film) => (
                         <Grid
