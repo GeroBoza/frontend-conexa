@@ -5,7 +5,7 @@ import { ApiService } from "../../services/ApiService";
 
 import ListLayout from "../ListLayout/ListLayout";
 import DataCard from "../../components/DataCard/DataCard";
-import DataModal from "../../components/DataModal/DataModal";
+import ListsModalContent from "../../components/ListsModalContent/ListsModalContent";
 
 const Planets = () => {
     const [planets, setPlanets] = useState([]);
@@ -36,6 +36,10 @@ const Planets = () => {
         setOpenModal(true);
     };
 
+    const handleCloseModal = () => {
+        setOpenModal(false);
+    };
+
     const onChangeSearch = async (name) => {
         setOpenLoader(true);
         const res = await ApiService.getPlanetsByName(name);
@@ -52,10 +56,6 @@ const Planets = () => {
         } else {
             getData();
         }
-    };
-
-    const handleCloseModal = () => {
-        setOpenModal(false);
     };
 
     return (
@@ -108,11 +108,11 @@ const Planets = () => {
                 </Typography>
             )}
             {selectedItem && (
-                <DataModal
+                <ListsModalContent
                     item={selectedItem}
                     open={openModal}
                     handleClose={handleCloseModal}
-                ></DataModal>
+                ></ListsModalContent>
             )}
         </ListLayout>
     );

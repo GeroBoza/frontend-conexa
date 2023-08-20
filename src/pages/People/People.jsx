@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 
-import { Avatar, DialogContentText, Grid, Typography } from "@mui/material";
+import { DialogContentText, Grid, Typography } from "@mui/material";
 import { ApiService } from "../../services/ApiService";
 
 import ListLayout from "../ListLayout/ListLayout";
 import DataCard from "../../components/DataCard/DataCard";
-import DataModal from "../../components/DataModal/DataModal";
+import ListsModalContent from "../../components/ListsModalContent/ListsModalContent";
 
 const People = () => {
     const [people, setPeople] = useState([]);
@@ -36,7 +36,6 @@ const People = () => {
     const handleClickCard = (evt) => {
         setSelectedItem(evt);
         setOpenModal(true);
-        console.log(evt);
     };
 
     const handleCloseModal = () => {
@@ -101,7 +100,7 @@ const People = () => {
                     </Grid>
                 ))}
             {selectedItem && (
-                <DataModal
+                <ListsModalContent
                     item={selectedItem}
                     open={openModal}
                     handleClose={handleCloseModal}
@@ -115,7 +114,7 @@ const People = () => {
                     <DialogContentText>
                         Skin color: <strong>{selectedItem.skin_color}</strong>
                     </DialogContentText>
-                </DataModal>
+                </ListsModalContent>
             )}
         </ListLayout>
     );

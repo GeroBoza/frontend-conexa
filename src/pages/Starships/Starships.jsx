@@ -5,7 +5,7 @@ import { ApiService } from "../../services/ApiService";
 
 import ListLayout from "../ListLayout/ListLayout";
 import DataCard from "../../components/DataCard/DataCard";
-import DataModal from "../../components/DataModal/DataModal";
+import ListsModalContent from "../../components/ListsModalContent/ListsModalContent";
 
 const Starships = () => {
     const [starships, setStarships] = useState([]);
@@ -95,11 +95,11 @@ const Starships = () => {
                 ))}
 
             {selectedItem && (
-                <DataModal
+                <ListsModalContent
                     item={selectedItem}
                     open={openModal}
                     handleClose={handleCloseModal}
-                ></DataModal>
+                ></ListsModalContent>
             )}
         </ListLayout>
     );
