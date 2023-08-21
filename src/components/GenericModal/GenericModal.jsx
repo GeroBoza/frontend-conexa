@@ -12,7 +12,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function GenericModal({ item, title, open, handleClose, children }) {
+function GenericModal({ title, open, handleClose, children }) {
     return (
         <div>
             <Dialog

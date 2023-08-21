@@ -80,11 +80,7 @@ const People = () => {
                     open={openModal}
                     handleClose={handleCloseModal}
                 >
-                    <Grid
-                        container
-                        // display={"flex"}
-                        // justifyContent={"space-between"}
-                    >
+                    <Grid container>
                         <Grid item xs={12} md={4}>
                             <DialogContentText>
                                 Birth year:{" "}
@@ -108,9 +104,9 @@ const People = () => {
                         >
                             <Avatar
                                 alt={selectedItem.name}
-                                src={`https://geroboza-bucket.s3.sa-east-1.amazonaws.com/sw/${getPeopleId(
-                                    selectedItem.url
-                                )}.png`}
+                                src={`${
+                                    process.env.REACT_APP_IMAGES_URL
+                                }/${getPeopleId(selectedItem.url)}.png`}
                                 sx={{
                                     width: 150,
                                     height: 150,

@@ -6,7 +6,7 @@ import "./styles.scss";
 const Home = () => {
     return (
         <AppLayout>
-            <Grid container className="gif">
+            <Grid container className="home">
                 <Grid item xs={12} display={"flex"} justifyContent={"center"}>
                     <Typography
                         className={"home-title"}

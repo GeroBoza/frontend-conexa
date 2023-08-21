@@ -1,13 +1,8 @@
 import * as React from "react";
 import DialogContentText from "@mui/material/DialogContentText";
-import Slide from "@mui/material/Slide";
 import { Grid } from "@mui/material";
 
 import GenericModal from "../GenericModal/GenericModal";
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
 
 function ListsModalContent({ item, open, handleClose, children }) {
     function getFilmId(url) {

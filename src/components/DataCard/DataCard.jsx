@@ -53,29 +53,35 @@ function DataCard({
     return (
         <Card sx={{ minWidth: 275 }}>
             <CardContent>
-                <Typography
-                    sx={{
-                        fontSize: 17,
-                        fontWeight: "bold",
-                        display: "flex",
-                        justifyContent: "space-between",
-                    }}
-                    color="text.primary"
-                    gutterBottom
-                >
-                    {item.name}
-                    <Rating
-                        max={1}
-                        onChange={handleAddFavourite}
-                        value={checkIfIsFavourite()}
-                        emptyIcon={
-                            <StarBorderIcon
-                                fontSize="inherit"
-                                sx={{ color: "grey" }}
-                            />
-                        }
-                    />
-                </Typography>
+                <Grid container>
+                    <Grid item xs={6}>
+                        <Typography
+                            fontWeight={"bold"}
+                            color="text.primary"
+                            gutterBottom
+                        >
+                            {item.name}
+                        </Typography>
+                    </Grid>
+                    <Grid
+                        item
+                        xs={6}
+                        display={"flex"}
+                        justifyContent={"flex-end"}
+                    >
+                        <Rating
+                            max={1}
+                            onChange={handleAddFavourite}
+                            value={checkIfIsFavourite()}
+                            emptyIcon={
+                                <StarBorderIcon
+                                    fontSize="inherit"
+                                    sx={{ color: "grey" }}
+                                />
+                            }
+                        />
+                    </Grid>
+                </Grid>
                 <Grid container>
                     <Grid item xs={hasAvatar ? 6 : 12}>
                         {children}
@@ -84,7 +90,7 @@ function DataCard({
                         <Grid item xs={6}>
                             <Avatar
                                 alt={item.name}
-                                src={`https://geroboza-bucket.s3.sa-east-1.amazonaws.com/sw/${peopleId}.png`}
+                                src={`${process.env.REACT_APP_IMAGES_URL}/${peopleId}.png`}
                                 sx={{
                                     width: 150,
                                     height: 150,

@@ -6,6 +6,8 @@ import { Grid, Typography } from "@mui/material";
 import SkeletonCard from "../../components/SkeletonCard/SkeletonCard";
 import GenericModal from "../../components/GenericModal/GenericModal";
 
+import "./styles.scss";
+
 const Films = () => {
     const [films, setFilms] = useState([]);
     const [openLoader, setOpenLoader] = useState(false);
@@ -39,7 +41,6 @@ const Films = () => {
                 container
                 spacing={3}
                 sx={{
-                    // marginTop: "100px",
                     padding: "100px 30px 50px",
                 }}
             >
@@ -51,7 +52,7 @@ const Films = () => {
                               md={6}
                               lg={4}
                               key={film.episode_id}
-                              sx={{ display: "flex", justifyContent: "center" }}
+                              className="filmCard"
                           >
                               <FilmCard
                                   film={film}
@@ -65,7 +66,7 @@ const Films = () => {
                               item
                               xs={12}
                               md={4}
-                              sx={{ display: "flex", justifyContent: "center" }}
+                              className="filmCard"
                           >
                               <SkeletonCard></SkeletonCard>
                           </Grid>
@@ -79,24 +80,9 @@ const Films = () => {
                     handleClose={handleClose}
                 >
                     <Grid container>
-                        <Grid
-                            item
-                            xs={12}
-                            lg={5}
-                            display={"flex"}
-                            justifyContent={"center"}
-                            alignItems={"center"}
-                            mb={2}
-                        >
+                        <Grid item xs={12} lg={5} className="modalContent">
                             <img
-                                width={"250px"}
-                                height={"350px"}
-                                style={{
-                                    borderRadius: "10px",
-                                    objectFit: "cover",
-                                }}
                                 src={`covers/episode_${selectedFilm.episode_id}.jpeg`}
-                                // src={`covers/episode_1.jpeg`}
                                 alt={selectedFilm.name}
                             />
                         </Grid>

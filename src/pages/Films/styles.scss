@@ -1,0 +1,19 @@
+.filmCard{
+    display: flex;
+    justify-content: center
+}
+
+.modalContent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    
+    img{
+        width: 250px;
+        height: 350px;
+        border-radius: 10px;
+        object-fit: cover;
+        
+    }
+}

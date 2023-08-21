@@ -1,4 +1,4 @@
-.gif{
+.home{
     background-image: url('../../../public/background.png');
     background-size: cover;
     background-repeat: no-repeat;
@@ -15,7 +15,9 @@
     overflow: hidden;
     font-size: 4em !important;
     opacity: 1;
+    margin-bottom: 100px !important;
 }
+
 @keyframes fadeIn {
     0% {
         opacity: 0;
