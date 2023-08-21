@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { DialogContentText, Grid, Typography } from "@mui/material";
 import { ApiService } from "../../services/ApiService";
@@ -9,27 +9,12 @@ import ListsModalContent from "../../components/ListsModalContent/ListsModalCont
 
 const Planets = () => {
     const [planets, setPlanets] = useState([]);
-    const [previousUrl, setPreviousUrl] = useState(null);
     const [selectedItem, setSelectedItem] = useState(null);
     const [openModal, setOpenModal] = useState(false);
-    const [nextUrl, setNextUrl] = useState(null);
-    const [openLoader, setOpenLoader] = useState(false);
+
     const [favouriteList, setFavouriteList] = useState(
         JSON.parse(localStorage.getItem("planetsFavs")) || []
     );
-
-    const getData = async (page = 1) => {
-        setOpenLoader(true);
-        const res = await ApiService.getAllPlanets(page);
-        setPlanets(res.data.results);
-        setNextUrl(res.data.next);
-        setPreviousUrl(res.data.previous);
-        setOpenLoader(false);
-    };
-
-    useEffect(() => {
-        getData();
-    }, []);
 
     const handleClickCard = (item) => {
         setSelectedItem(item);
@@ -40,33 +25,13 @@ const Planets = () => {
         setOpenModal(false);
     };
 
-    const onChangeSearch = async (name) => {
-        setOpenLoader(true);
-        const res = await ApiService.getPlanetsByName(name);
-
-        setNextUrl(res.data.next);
-        setPreviousUrl(res.data.previous);
-        setPlanets(res.data.results);
-        setOpenLoader(false);
-    };
-
-    const handleFavouritesButton = (condition) => {
-        if (condition === "favs") {
-            setPlanets(favouriteList);
-        } else {
-            getData();
-        }
-    };
-
     return (
         <ListLayout
             title={"Planets"}
-            openLoader={openLoader}
-            previousUrl={previousUrl}
-            nextUrl={nextUrl}
-            getData={getData}
-            onChangeSearch={onChangeSearch}
-            handleFavouritesButton={handleFavouritesButton}
+            setItems={setPlanets}
+            getDataFunction={ApiService.getAllPlanets}
+            getDataByNameFunction={ApiService.getPlanetsByName}
+            favouriteList={favouriteList}
         >
             {planets.length > 0 ? (
                 planets.map((planet) => (

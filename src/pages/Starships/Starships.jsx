@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { DialogContentText, Grid, Typography } from "@mui/material";
 import { ApiService } from "../../services/ApiService";
@@ -9,27 +9,11 @@ import ListsModalContent from "../../components/ListsModalContent/ListsModalCont
 
 const Starships = () => {
     const [starships, setStarships] = useState([]);
-    const [previousUrl, setPreviousUrl] = useState(null);
     const [selectedItem, setSelectedItem] = useState(null);
     const [openModal, setOpenModal] = useState(false);
-    const [nextUrl, setNextUrl] = useState(null);
-    const [openLoader, setOpenLoader] = useState(false);
     const [favouriteList, setFavouriteList] = useState(
         JSON.parse(localStorage.getItem("starshipsFavs")) || []
     );
-
-    const getData = async (page = 1) => {
-        setOpenLoader(true);
-        const res = await ApiService.getAllStarships(page);
-        setStarships(res.data.results);
-        setNextUrl(res.data.next);
-        setPreviousUrl(res.data.previous);
-        setOpenLoader(false);
-    };
-
-    useEffect(() => {
-        getData();
-    }, []);
 
     const handleClickCard = (item) => {
         setSelectedItem(item);
@@ -40,33 +24,13 @@ const Starships = () => {
         setOpenModal(false);
     };
 
-    const onChangeSearch = async (name) => {
-        setOpenLoader(true);
-        const res = await ApiService.getStarshipsByName(name);
-
-        setNextUrl(res.data.next);
-        setPreviousUrl(res.data.previous);
-        setStarships(res.data.results);
-        setOpenLoader(false);
-    };
-
-    const handleFavouritesButton = (condition) => {
-        if (condition === "favs") {
-            setStarships(favouriteList);
-        } else {
-            getData();
-        }
-    };
-
     return (
         <ListLayout
             title={"Starships"}
-            openLoader={openLoader}
-            previousUrl={previousUrl}
-            nextUrl={nextUrl}
-            getData={getData}
-            onChangeSearch={onChangeSearch}
-            handleFavouritesButton={handleFavouritesButton}
+            setItems={setStarships}
+            getDataFunction={ApiService.getAllStarships}
+            getDataByNameFunction={ApiService.getStarshipsByName}
+            favouriteList={favouriteList}
         >
             {starships &&
                 starships.map((starship) => (

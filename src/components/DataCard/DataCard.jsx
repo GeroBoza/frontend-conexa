@@ -1,12 +1,12 @@
-import * as React from "react";
+import React from "react";
+
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Avatar, Grid, Rating } from "@mui/material";
-
 import StarBorderIcon from "@mui/icons-material/StarBorder";
+import { Avatar, Grid, Rating } from "@mui/material";
 
 import "./styles.scss";
 
@@ -17,6 +17,7 @@ function DataCard({
     setFavouriteList,
     handleClick,
     children,
+    peopleId,
     hasAvatar = false,
 }) {
     const checkIfIsFavourite = () => {
@@ -48,17 +49,6 @@ function DataCard({
         setFavouriteList(favs);
         localStorage.setItem(favListName, JSON.stringify(favs));
     };
-
-    function getPeopleId(url) {
-        const regex = /\/(\d+)\/$/;
-        const matches = url.match(regex);
-
-        if (matches && matches.length > 1) {
-            return parseInt(matches[1]);
-        }
-
-        return null;
-    }
 
     return (
         <Card sx={{ minWidth: 275 }}>
@@ -94,9 +84,7 @@ function DataCard({
                         <Grid item xs={6}>
                             <Avatar
                                 alt={item.name}
-                                src={`https://geroboza-bucket.s3.sa-east-1.amazonaws.com/sw/${getPeopleId(
-                                    item.url
-                                )}.png`}
+                                src={`https://geroboza-bucket.s3.sa-east-1.amazonaws.com/sw/${peopleId}.png`}
                                 sx={{
                                     width: 150,
                                     height: 150,

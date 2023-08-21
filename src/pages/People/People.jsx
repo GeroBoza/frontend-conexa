@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { Avatar, DialogContentText, Grid, Typography } from "@mui/material";
 import { ApiService } from "../../services/ApiService";
@@ -9,28 +9,12 @@ import ListsModalContent from "../../components/ListsModalContent/ListsModalCont
 
 const People = () => {
     const [people, setPeople] = useState([]);
-    const [previousUrl, setPreviousUrl] = useState(null);
-    const [nextUrl, setNextUrl] = useState(null);
     const [openModal, setOpenModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
 
-    const [openLoader, setOpenLoader] = useState(false);
     const [favouriteList, setFavouriteList] = useState(
         JSON.parse(localStorage.getItem("peopleFavs")) || []
     );
-
-    const getData = async (page = 1) => {
-        setOpenLoader(true);
-        const res = await ApiService.getAllPeople(page);
-        setPeople(res.data.results);
-        setNextUrl(res.data.next);
-        setPreviousUrl(res.data.previous);
-        setOpenLoader(false);
-    };
-
-    useEffect(() => {
-        getData();
-    }, []);
 
     const handleClickCard = (evt) => {
         setSelectedItem(evt);
@@ -39,24 +23,6 @@ const People = () => {
 
     const handleCloseModal = () => {
         setOpenModal(false);
-    };
-
-    const onChangeSearch = async (name) => {
-        setOpenLoader(true);
-        const res = await ApiService.getPeopleByName(name);
-
-        setNextUrl(res.data.next);
-        setPreviousUrl(res.data.previous);
-        setPeople(res.data.results);
-        setOpenLoader(false);
-    };
-
-    const handleFavouritesButton = (condition) => {
-        if (condition === "favs") {
-            setPeople(favouriteList);
-        } else {
-            getData();
-        }
     };
 
     function getPeopleId(url) {
@@ -73,12 +39,10 @@ const People = () => {
     return (
         <ListLayout
             title={"People"}
-            openLoader={openLoader}
-            previousUrl={previousUrl}
-            nextUrl={nextUrl}
-            getData={getData}
-            onChangeSearch={onChangeSearch}
-            handleFavouritesButton={handleFavouritesButton}
+            setItems={setPeople}
+            getDataFunction={ApiService.getAllPeople}
+            getDataByNameFunction={ApiService.getPeopleByName}
+            favouriteList={favouriteList}
         >
             {people &&
                 people.map((p) => (
@@ -89,6 +53,7 @@ const People = () => {
                             favListName={"peopleFavs"}
                             setFavouriteList={setFavouriteList}
                             favouriteList={favouriteList}
+                            peopleId={getPeopleId(p.url)}
                             hasAvatar={true}
                         >
                             <Typography color="text.secondary">

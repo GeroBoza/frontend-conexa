@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button, Grid, Typography } from "@mui/material";
 
@@ -11,18 +11,50 @@ import "./styles.scss";
 
 const ListLayout = ({
     title,
-    openLoader,
-    previousUrl,
-    nextUrl,
-    getData,
-    onChangeSearch,
-    handleFavouritesButton,
+    setItems,
+    favouriteList,
+    getDataFunction,
+    getDataByNameFunction,
     children,
 }) => {
     const [newPage, setNewPage] = useState(1);
     const [showFavouritesButton, setShowFavouritesButton] = useState(true);
+    const [previousUrl, setPreviousUrl] = useState(null);
+    const [nextUrl, setNextUrl] = useState(null);
+    const [openLoader, setOpenLoader] = useState(false);
+
     const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
+    const getData = async (page = 1) => {
+        setOpenLoader(true);
+        const res = await getDataFunction(page);
+        setItems(res.data.results);
+        setNextUrl(res.data.next);
+        setPreviousUrl(res.data.previous);
+        setOpenLoader(false);
+    };
+
+    useEffect(() => {
+        getData();
+    }, []);
+
+    const handleFavouritesButton = (condition) => {
+        if (condition === "favs") {
+            setItems(favouriteList);
+        } else {
+            getData();
+        }
+    };
+
+    const onChangeSearch = async (name) => {
+        setOpenLoader(true);
+        const res = await getDataByNameFunction(name);
+
+        setNextUrl(res.data.next);
+        setPreviousUrl(res.data.previous);
+        setItems(res.data.results);
+        setOpenLoader(false);
+    };
     const handleButtonClick = (newPage) => {
         setNewPage(newPage);
         getData(newPage);
