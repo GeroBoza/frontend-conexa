@@ -100,7 +100,7 @@ const Films = () => {
                                 alt={selectedFilm.name}
                             />
                         </Grid>
-                        <Grid item xs={12} lg={7}>
+                        <Grid item xs={12} lg={7} xl={6}>
                             <Grid container>
                                 <Typography variant="h5" color="initial">
                                     <strong>SYNOPSIS</strong>
