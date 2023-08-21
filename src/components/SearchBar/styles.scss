@@ -2,7 +2,6 @@
     background-color: rgb(167, 162, 162);
     border-radius: 10px;
 }
-
 .css-12wjzgy{
     background-color: rgb(167, 162, 162);
     border-radius: 10px;
@@ -11,13 +10,24 @@
 .css-1jy569b-MuiFormLabel-root-MuiInputLabel-root{
     color: white !important;
     font-weight: bold !important;
-
 }
+.css-1ald77x{
+    color: white !important;
+    font-weight: bold !important;
+}
+
 .css-1jy569b-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
+    color: white !important;
+    font-weight: bold !important;
+}
+.css-1ald77x.Mui-focused {
     color: white !important;
     font-weight: bold !important;
 }
 
 .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline{
     border-color: white !important;
+}
+.css-1ald77x.Mui-focused .MuiOutlinedInput-notchedOutline {
+    color: white !important;
 }
