@@ -48,6 +48,20 @@ const ListLayout = ({
         );
     };
 
+    const getSkeletons = () => {
+        return skeletons.map((skeleton) => (
+            <Grid
+                key={skeleton}
+                item
+                xs={12}
+                md={3}
+                sx={{ display: "flex", justifyContent: "center" }}
+            >
+                <SkeletonCard width={345} height={200} />
+            </Grid>
+        ));
+    };
+
     return (
         <AppLayout openLoader={openLoader}>
             <Grid
@@ -78,19 +92,9 @@ const ListLayout = ({
                             : favButtons("Ver todo")}
                     </Grid>
                 </Grid>
-                {!openLoader
-                    ? children
-                    : skeletons.map((skeleton) => (
-                          <Grid
-                              key={skeleton}
-                              item
-                              xs={12}
-                              md={3}
-                              sx={{ display: "flex", justifyContent: "center" }}
-                          >
-                              <SkeletonCard width={345} height={200} />
-                          </Grid>
-                      ))}
+
+                {!openLoader ? children : getSkeletons()}
+
                 {showFavouritesButton && (
                     <PaginationButtons
                         previousUrl={previousUrl}
