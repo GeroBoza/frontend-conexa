@@ -120,8 +120,8 @@ const ListLayout = ({
                     </Grid>
                     <Grid item xs={12} className={"switch-container"} sx={{}}>
                         {showFavouritesButton === true
-                            ? favButtons("Ver Favoritos", "favs")
-                            : favButtons("Ver todo")}
+                            ? favButtons("Favs", "favs")
+                            : favButtons("All")}
                     </Grid>
                 </Grid>
 
